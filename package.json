@@ -1,0 +1,27 @@
+{
+  "name": "customdiscordbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomasBacheley/CustomDiscordBot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThomasBacheley/CustomDiscordBot/issues"
+  },
+  "homepage": "https://github.com/ThomasBacheley/CustomDiscordBot#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "discord.js": "^12.5.1",
+    "express": "^4.17.1",
+    "luxon": "^1.26.0",
+    "pretty-ms": "^7.0.1"
+  }
+}
