@@ -76,4 +76,4 @@ typings/
 .fusebox/
 
 #config du bot
-config.json
+/config.json
