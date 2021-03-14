@@ -8,6 +8,7 @@ const fs = require('fs')
 var colors = require('colors')
 var p_ms = require('pretty-ms')
 var { DateTime } = require('luxon');
+require('dotenv').config();
 
 client.commands = new Discord.Collection()
 client.aliases = new Discord.Collection()
@@ -17,7 +18,7 @@ client.fonctions = new Discord.Collection();
 //#endregion
 
 //#region initialion
-client.login(config.token)
+client.login(process.env.TOKEN)
 client.on('ready',async ()=>{
     try{
         await loadclientfunction(client);
