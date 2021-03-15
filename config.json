@@ -5,5 +5,6 @@
         "log":"807943677418668043"
     },
     "color":"#93157D",
-    "prefix":"$"
+    "prefix":"$",
+    "default_cooldown":10
 }
