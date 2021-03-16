@@ -69,7 +69,7 @@ process.on('uncaughtException', function(err) {
 client.on('message',async message=>{
     try{
         if(message.author.bot || message.channel.type === 'dm') return;
-
+        
         if(message.content.startsWith(config.prefix)||message.content.startsWith(config.prefix.toUpperCase())){
 
             var msgArray = message.content.split(" ")

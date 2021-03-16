@@ -3,13 +3,13 @@ const config = require('../../config.json')
 module.exports = {
 	filepath: __filename,
 	name: __filename.replace('/home/pi/CustomDiscordBot/commands/','').replace('.js','').split('/')[__filename.replace('/home/pi/CustomDiscordBot/commands/','').replace('.js','').split('/').length-1],
-	aliases:['latence'],
-	permission: "1 Queue",
-	description:  "pour connaitre le ping du bot",
+	aliases:['new','news'],
+	permission: "2 Queues",
+	description: "recupere le RSS de bbc new concernant les technologie",
 	usage: config.prefix+this.name,
 	args:false,
 	args_min:0,
-	category: 'Informations',
+	category: 'Utile',
 	bdd:false,
 	async run(client,message,args) {
 		try{
@@ -19,26 +19,24 @@ module.exports = {
 				if(rep.erreur){
 					message.reply(rep.message).then(msg=>msg.delete({timeout:15000}))
 				}else{
-					var msg_ping = await message.channel.send('ping....').then(msg=>msg.delete({timeout:200}));
-	
-					var latence = (msg_ping.createdTimestamp - message.createdTimestamp);
-					var txt = 'J\'ai '+latence+'ms de latence/ping ';
-					if(latence>=250){
-						txt += client.emojis.cache.get('812036571116732466').toString();
-					}else{
-						if(latence>=175){
-							txt += client.emojis.cache.get('812036571385167872').toString();
-						}else{
-							txt += client.emojis.cache.get('812036571066400800').toString();
-						}
-					}
-					client.user.setActivity(latence/1000+'s de latence').then(c=>{setTimeout(function() {client.user.setActivity(' de la documentation',{ type: 'WATCHING' })}, 60000);})
-					message.reply(txt).then(msg=>{msg.delete({timeout:20000})})
+					let Parser = require('rss-parser');
+					let parser = new Parser();
+					let feed = await parser.parseURL('http://feeds.bbci.co.uk/news/technology/rss.xml');
+					//---
+					const {MessageEmbed} = require('discord.js')
+					var embed = new MessageEmbed()
+					.setColor(config.color)
+					.setTitle('Dernière nouveauté')
+					.addField(feed.items[0].title,'[lien]('+feed.items[0].link+')')
+					.addField(feed.items[1].title,'[lien]('+feed.items[1].link+')')
+					.addField(feed.items[2].title,'[lien]('+feed.items[2].link+')');
+
+					message.channel.send(embed).then(msg=>msg.delete({timeout:60000}))
 				}
-				
 			}else{
 				message.reply('tu n\'as pas le rôle pour utiliser cette commande AKA le role `'+this.permission+'`').then(msg=>msg.delete({timeout:10000}))
 			}
+			
 		}catch(error){
 			client.erreur(message,error,__filename)
 		}
