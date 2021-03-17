@@ -25,6 +25,7 @@ client.on('ready',async ()=>{
         client.log('Démarrage.....',colors.yellow)
         client.user.setActivity(' de la documentation',{ type: 'WATCHING' })
         //--
+        await loadevents()
         await loadfunction(client)
         await loadcmd(client)
         //--
@@ -36,15 +37,6 @@ client.on('ready',async ()=>{
         return;
     }
 })
-//#endregion
-//#region event
-//#region emote
-client.on('emojiCreate',emoji=>{client.log(emoji.name+' ajouter au serveur '+emoji.guild.name,colors.cyan)})
-client.on('emojiDelete',emoji=>{client.log(emoji.name+' supprimer du serveur '+emoji.guild.name,colors.cyan)})
-client.on('emojiUpdate',emoji=>{client.log(emoji.name+' update sur le serveur '+emoji.guild.name,colors.cyan)})
-//#endregion
-//#region Invitation
-client.on('inviteCreate',invite=>{client.log_embed(invite.inviter.username,invite.inviter.tag + ' à creer une invitation ('+invite.code+') vers le channel '+invite.channel.toString()+' du serveur '+invite.guild.name)})
 //#endregion
 //#region erreur
 process.on('unhandledRejection', (error,reason, promise) => {require('./functions/gestionErreur.js').rejection(error,reason,promise,client)});
@@ -62,7 +54,6 @@ process.on('uncaughtException', function(err) {
         break;
     }
 });
-//#endregion
 //#endregion
 
 //#region on.message
@@ -162,3 +153,20 @@ function walkSync(currentDirPath, callback) {
     });
 }
 //#endregion
+
+async function loadevents(){
+    try{
+        var i = 0
+        walkSync('./events', function(filePath, stat) {
+            i++;
+            let data = require('./'+filePath)
+        })
+        client.log(colors.underline(i)+' events chargés... !',colors.yellow)
+        return true;
+    }catch(error){
+        throw error
+    }
+}
+
+
+module.exports = {client}
