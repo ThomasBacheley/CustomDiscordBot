@@ -129,7 +129,7 @@ async function loadfunction(client){
 }
 
 async function loadclientfunction(client){
-    client.log = (msg,couleur) => {console.log(couleur('['+DateTime.now().toFormat('dd/LL HH:mm:ss')+'] '+msg))};
+    client.log = (msg,couleur) => {console.log(couleur(' ['+DateTime.now().toFormat('dd/LL HH:mm:ss')+'] '+msg))};
     client.erreur = (message,error,filename) => {client.fonctions.get('gestionErreur')(message,error,client,filename.replace('/home/pi/CustomDiscordBot/',''))};
     client.log_embed = (username,desc) => {
         var embed = new Discord.MessageEmbed().setColor(config.color).setTitle('De '+username).setDescription(desc);
@@ -159,7 +159,7 @@ async function loadevents(){
         var i = 0
         walkSync('./events', function(filePath, stat) {
             i++;
-            let data = require('./'+filePath)
+            require('./'+filePath)
         })
         client.log(colors.underline(i)+' events chargés... !',colors.yellow)
         return true;
